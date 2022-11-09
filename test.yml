@@ -31,8 +31,41 @@
       - name: clone 
         ansible.builtin.git:
           repo: https://github.com/f1amy/laravel-realworld-example-app.git
-          dest: /var/www/laravel"
+          dest: /var/www/laravel
+
       - name: connet to mysql
         ansible.builtin.copy:
           src: /root/mysql.sh
           dest: /root
+      - name: enable site
+        command: a2ensite demo.conf
+
+      - name: restart apache2
+        command: systemctl reload apache2
+
+
+      - name: set storage permision
+        command: "{{ item }}"
+        with_items:
+          - chown -R :www-data /var/www/laravel
+          - chmod -R 775 /var/www/laravel
+          - chmod -R 775 /var/www/laravel/storage
+
+      - name: run composer
+        composer:
+          command: install
+          working_dir: /var/www/laravel
+        environment:
+          COMPOSER_ALLOW_SUPERUSER: "1"
+          COMPOSER_NO_INTERACTION: "1"
+
+      - name: generate app keys
+        composer:
+          command: create-project
+          working_dir: /var/www/laravel
+        environment:
+          COMPOSER_ALLOW_SUPERUSER: "1"
+          COMPOSER_NO_INTERACTION: "1"
+        
+
+
