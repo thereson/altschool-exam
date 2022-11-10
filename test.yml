@@ -28,10 +28,15 @@
         ansible.builtin.copy:
           src: /root/demo.conf
           dest: /etc/apache2/sites-availabe
+      - name: chech for existing repo
+        ansible.builtin.stat:
+          path: /var/www/laravel
+        register: checked
       - name: clone 
         ansible.builtin.git:
-          repo: https://github.com/f1amy/laravel-realworld-example-app.git
+          repo: https://github.com/thereson/laravel-realworld-example-app.git
           dest: /var/www/laravel
+        when: checked.stat.exists == "false" 
 
       - name: connet to mysql
         ansible.builtin.copy:
