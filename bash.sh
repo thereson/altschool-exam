@@ -7,6 +7,9 @@ echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /et
 curl -fsSL  https://packages.sury.org/php/apt.gpg| sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/sury-keyring.gpg
 sudo apt update
 sudo apt install php8.1 -y
+sudo apt install php8.1-{bcmath,fpm,xml,mysql,zip,intl,ldap,gd,cli,bz2,curl,mbstring,pgsql,opcache,soap,cgi} -y
+
+
 sudo apt install mysql-server
 
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"

@@ -27,7 +27,7 @@
       - name: deploy app from master
         ansible.builtin.copy:
           src: /root/demo.conf
-          dest: /etc/apache2/sites-availabe
+          dest: /etc/apache2/sites-available
       - name: chech for existing repo
         ansible.builtin.stat:
           path: /var/www/laravel
